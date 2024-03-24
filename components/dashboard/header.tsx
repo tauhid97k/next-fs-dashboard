@@ -12,7 +12,7 @@ import { CircleUser, Menu } from 'lucide-react'
 
 const Header = () => {
   return (
-    <header className="sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:px-6">
+    <header className="sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-muted/40 px-4 md:px-6">
       <div className="flex items-center gap-4">
         <Button variant="outline" size="icon" className="shrink-0">
           <Menu className="icon" />
