@@ -26,7 +26,7 @@ const SidebarCollapse = ({
     <Collapsible open={open} onOpenChange={setOpen}>
       <CollapsibleTrigger asChild>
         <button
-          className={`w-full h-10 flex justify-between items-center gap-2 font-medium rounded-md py-2 px-4 mb-2 ${
+          className={`w-full h-10 flex justify-between items-center gap-2 font-medium rounded-md py-2 px-4 mb-2 transition-colors ${
             activePath ? 'bg-muted' : 'hover:bg-muted'
           }`}
         >

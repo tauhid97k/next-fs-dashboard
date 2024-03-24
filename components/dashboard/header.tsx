@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { CircleUser, Menu } from 'lucide-react'
+import { ThemeToggler } from '@/components/theme-toggler'
 
 const Header = () => {
   return (
@@ -20,28 +21,31 @@ const Header = () => {
         </Button>
         <h1 className="text-xl font-medium">Shadcn UI</h1>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger className="rounded-full">
-          <Avatar className="w-9 h-9">
-            <AvatarImage
-              src="https://github.com/shadcn.png"
-              alt="profile image"
-            />
-            <AvatarFallback>
-              <CircleUser className="icon" />
-            </AvatarFallback>
-            <span className="sr-only">Toggle user menu</span>
-          </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex items-center gap-4">
+        <ThemeToggler />
+        <DropdownMenu>
+          <DropdownMenuTrigger className="rounded-full">
+            <Avatar className="w-9 h-9">
+              <AvatarImage
+                src="https://github.com/shadcn.png"
+                alt="profile image"
+              />
+              <AvatarFallback>
+                <CircleUser className="icon" />
+              </AvatarFallback>
+              <span className="sr-only">Toggle user menu</span>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </header>
   )
 }

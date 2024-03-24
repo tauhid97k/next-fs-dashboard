@@ -16,7 +16,7 @@ const SidebarLink = ({
   return (
     <Link
       href={href}
-      className={`flex w-full items-center gap-2 rounded-md px-4 py-2 mb-2 font-medium ${
+      className={`flex w-full items-center gap-2 rounded-md px-4 py-2 mb-2 font-medium transition-colors ${
         activeLink ? 'bg-muted' : 'hover:bg-muted'
       }`}
     >
