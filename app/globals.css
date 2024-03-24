@@ -74,3 +74,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.icon {
+  @apply inline-block w-5 h-5;
+}
