@@ -1,8 +1,10 @@
-import SidebarMenu from '@/components/dashboard/sidebar/sidebar-menu'
+import SidebarHeader from './sidebar-header'
+import SidebarMenu from './sidebar-menu'
 
 const Sidebar = () => {
   return (
-    <aside className="h-[calc(100vh-64px)] w-64 p-4 md:p-6 bg-muted/40 border-r overflow-y-auto">
+    <aside className="w-64 shrink-0 flex flex-col bg-muted/40 border-r">
+      <SidebarHeader />
       <SidebarMenu />
     </aside>
   )

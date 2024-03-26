@@ -5,7 +5,7 @@ import { LayoutGrid, UserRound, Pencil, Settings } from 'lucide-react'
 
 const SidebarMenu = () => {
   return (
-    <nav>
+    <nav className="grow p-4 overflow-y-auto">
       <SidebarLink
         text="Dashboard"
         href="/dashboard"

@@ -1,4 +1,11 @@
 {
   "css.lint.unknownAtRules": "ignore",
-  "cSpell.words": ["clsx", "lucide", "shadcn", "sonner", "tailwindcss"]
+  "cSpell.words": [
+    "clsx",
+    "hookform",
+    "lucide",
+    "shadcn",
+    "sonner",
+    "tailwindcss"
+  ]
 }

@@ -1,5 +1,7 @@
+import Heading from '@/components/dashboard/heading'
+
 const Settings = () => {
-  return <div>Settings</div>
+  return <Heading title="Settings" />
 }
 
 export default Settings

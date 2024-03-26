@@ -1,5 +1,7 @@
+import Heading from '@/components/dashboard/heading'
+
 const DashboardOverviewPage = () => {
-  return <h1>Dashboard</h1>
+  return <Heading title="Dashboard" />
 }
 
 export default DashboardOverviewPage

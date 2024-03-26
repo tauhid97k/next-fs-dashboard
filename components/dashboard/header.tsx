@@ -13,14 +13,11 @@ import { ThemeToggler } from '@/components/theme-toggler'
 
 const Header = () => {
   return (
-    <header className="sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-muted/40 px-4 md:px-6">
-      <div className="flex items-center gap-4">
-        <Button variant="outline" size="icon" className="shrink-0">
-          <Menu className="icon" />
-          <span className="sr-only">Toggle navigation menu</span>
-        </Button>
-        <h1 className="text-xl font-medium">Shadcn UI</h1>
-      </div>
+    <header className="shrink-0 flex h-16 items-center justify-between gap-4 border-b bg-muted/40 px-4">
+      <Button variant="outline" size="icon">
+        <Menu className="icon" />
+        <span className="sr-only">Toggle navigation menu</span>
+      </Button>
       <div className="flex items-center gap-4">
         <ThemeToggler />
         <DropdownMenu>
