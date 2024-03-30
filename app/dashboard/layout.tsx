@@ -58,7 +58,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         <Sidebar />
         <div className="grow flex flex-col">
           <Header />
-          <main className="p-4 overflow-y-auto">{children}</main>
+          <main className="h-full p-4 overflow-y-auto">{children}</main>
         </div>
       </div>
     </SidebarContext.Provider>
