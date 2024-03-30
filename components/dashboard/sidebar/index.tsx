@@ -1,20 +1,33 @@
 import { useContext } from 'react'
 import { SidebarContext } from '@/app/dashboard/layout'
+import { Sheet, SheetContent } from '@/components/ui/sheet'
 import SidebarHeader from './sidebar-header'
 import SidebarMenu from './sidebar-menu'
 
 const Sidebar = () => {
-  const { isSidebarOpen } = useContext(SidebarContext)
+  const { isSidebarMobile, isSidebarOpen, setIsSidebarOpen } =
+    useContext(SidebarContext)
 
   return (
-    <aside
-      className={`${
-        isSidebarOpen ? 'ml-0' : '-ml-64'
-      } w-64 h-full shrink-0 flex flex-col absolute md:static bg-background md:bg-muted/40 border-r transition-[margin] duration-300`}
-    >
-      <SidebarHeader />
-      <SidebarMenu />
-    </aside>
+    <>
+      {isSidebarMobile ? (
+        <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+          <SheetContent side="left" className="w-64 flex flex-col">
+            <SidebarHeader />
+            <SidebarMenu />
+          </SheetContent>
+        </Sheet>
+      ) : (
+        <aside
+          className={`hidden md:flex flex-col w-64 h-full shrink-0 bg-muted/40 border-r transition-[margin] duration-300 ${
+            isSidebarOpen ? 'ml-0' : '-ml-64'
+          }`}
+        >
+          <SidebarHeader />
+          <SidebarMenu />
+        </aside>
+      )}
+    </>
   )
 }
 
