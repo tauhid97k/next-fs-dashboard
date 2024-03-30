@@ -4,8 +4,10 @@
     "clsx",
     "hookform",
     "lucide",
+    "nuqs",
     "shadcn",
     "sonner",
-    "tailwindcss"
+    "tailwindcss",
+    "tanstack"
   ]
 }
