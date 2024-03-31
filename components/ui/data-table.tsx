@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="p-4 rounded-md border">
+    <div className="p-4 rounded-md bg-muted/40">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -123,9 +123,11 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
       {table.getRowModel().rows?.length > 0 && (
-        <div className="flex items-center justify-between mt-8">
-          <div className="flex gap-4 items-center">
-            <span className="whitespace-nowrap">Rows per page</span>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 flex-wrap mt-4">
+          <div className="flex flex-col md:flex-row gap-4 items-center">
+            <span className="text-sm text-muted-foreground whitespace-nowrap">
+              Rows per page
+            </span>
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
@@ -147,8 +149,8 @@ export function DataTable<TData, TValue>({
               </SelectContent>
             </Select>
           </div>
-          <div className="flex gap-4 items-center">
-            <span className="whitespace-nowrap">{`Page ${page} of ${table.getPageCount()}`}</span>
+          <div className="flex flex-col md:flex-row gap-4 items-center">
+            <span className="text-sm text-muted-foreground whitespace-nowrap">{`Page ${page} of ${table.getPageCount()}`}</span>
             <Pagination>
               <PaginationContent>
                 <PaginationItem>

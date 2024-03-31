@@ -17,7 +17,7 @@ const Header = () => {
   const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext)
 
   return (
-    <header className="shrink-0 flex h-16 items-center justify-between gap-4 border-b bg-muted/40 px-4">
+    <header className="shrink-0 flex h-16 items-center justify-between gap-4 border-b bg-muted/40 px-4 md:px-6">
       <Button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         variant="outline"
