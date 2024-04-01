@@ -30,7 +30,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
-import { useQueryState } from 'nuqs'
+import { parseAsInteger, useQueryState } from 'nuqs'
 import { usePathname } from 'next/navigation'
 
 interface DataTableProps<TData, TValue> {
@@ -48,14 +48,14 @@ export function DataTable<TData, TValue>({
   limit,
   total,
 }: DataTableProps<TData, TValue>) {
-  const [pageNumber, setPageNumber] = useQueryState('page', {
-    defaultValue: page,
-    shallow: false,
-  })
-  const [limitNumber, setLimitNumber] = useQueryState('limit', {
-    defaultValue: limit,
-    shallow: false,
-  })
+  const [pageNumber, setPageNumber] = useQueryState(
+    'page',
+    parseAsInteger.withDefault(page).withOptions({ shallow: false })
+  )
+  const [limitNumber, setLimitNumber] = useQueryState(
+    'limit',
+    parseAsInteger.withDefault(limit).withOptions({ shallow: false })
+  )
 
   const pathName = usePathname()
 
@@ -70,7 +70,9 @@ export function DataTable<TData, TValue>({
     },
     manualPagination: true,
     pageCount: Math.ceil(total / limit),
-    onPaginationChange: ({ pageIndex, pageSize }) => {
+    onPaginationChange: () => {
+      const pageIndex = table.getState().pagination.pageIndex
+      const pageSize = table.getState().pagination.pageSize
       setPageNumber(pageIndex)
       setLimitNumber(pageSize)
     },
@@ -123,8 +125,8 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
       {table.getRowModel().rows?.length > 0 && (
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 flex-wrap mt-4">
-          <div className="flex flex-col md:flex-row gap-4 items-center">
+        <div className="flex items-center justify-center sm:justify-between flex-wrap gap-5 mt-4">
+          <div className="flex gap-4 items-center">
             <span className="text-sm text-muted-foreground whitespace-nowrap">
               Rows per page
             </span>
@@ -132,7 +134,7 @@ export function DataTable<TData, TValue>({
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
                 setPageNumber(1)
-                setLimitNumber(value)
+                setLimitNumber(Number(value))
               }}
             >
               <SelectTrigger className="w-[70px]">
@@ -149,7 +151,7 @@ export function DataTable<TData, TValue>({
               </SelectContent>
             </Select>
           </div>
-          <div className="flex flex-col md:flex-row gap-4 items-center">
+          <div className="flex gap-4 items-center">
             <span className="text-sm text-muted-foreground whitespace-nowrap">{`Page ${page} of ${table.getPageCount()}`}</span>
             <Pagination>
               <PaginationContent>
@@ -157,7 +159,6 @@ export function DataTable<TData, TValue>({
                   <PaginationPrevious
                     disabled={!table.getCanPreviousPage()}
                     href={`${pathName}?page=${page - 1}&limit=${limit}`}
-                    scroll={false}
                   />
                 </PaginationItem>
                 <PaginationItem>
@@ -169,7 +170,6 @@ export function DataTable<TData, TValue>({
                   <PaginationNext
                     disabled={!table.getCanNextPage()}
                     href={`${pathName}?page=${page + 1}&limit=${limit}`}
-                    scroll={false}
                   />
                 </PaginationItem>
               </PaginationContent>

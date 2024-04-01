@@ -27,7 +27,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   // Show/Hide Mobile/Desktop Sidebar On Window Resize
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 1024) {
         setIsSidebarOpen(false)
         setIsSidebarMobile(true)
       } else {
@@ -55,11 +55,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         setIsSidebarMobile,
       }}
     >
-      <div className="flex h-screen">
+      <div className="fixed size-full flex">
         <Sidebar />
-        <div className="w-screen flex flex-col">
+        <div className="w-full overflow-hidden">
           <Header />
-          <main className="p-4 md:p-6 overflow-y-auto">{children}</main>
+          <main className="h-[calc(100vh-64px)] p-4 md:p-6 overflow-y-auto">
+            {children}
+          </main>
         </div>
       </div>
     </SidebarContext.Provider>
