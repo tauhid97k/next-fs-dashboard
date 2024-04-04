@@ -12,15 +12,15 @@ const PostsList = async ({
   const page = searchParams.page ? Number(searchParams.page) : 1
   const limit = searchParams.limit ? Number(searchParams.limit) : 20
 
-  const response = await fetch(
-    `http://localhost:11000/api/posts?page=${page}&limit=${limit}`,
-    {
-      next: {
-        tags: ['posts'],
-      },
-    }
-  )
-  const posts = await response.json()
+  // const response = await fetch(
+  //   `http://localhost:11000/api/posts?page=${page}&limit=${limit}`,
+  //   {
+  //     next: {
+  //       tags: ['posts'],
+  //     },
+  //   }
+  // )
+  // const posts = await response.json()
 
   return (
     <>
@@ -30,13 +30,13 @@ const PostsList = async ({
           <Link href="/dashboard/posts/create">Create New</Link>
         </Button>
       </div>
-      <DataTable
+      {/* <DataTable
         columns={postsColumns}
         data={posts.data}
         page={page}
         limit={limit}
         total={posts.meta.total}
-      />
+      /> */}
     </>
   )
 }
