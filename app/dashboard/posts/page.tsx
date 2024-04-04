@@ -1,15 +1,26 @@
 import Link from 'next/link'
+import Heading from '@/components/dashboard/heading'
 import { Button } from '@/components/ui/button'
-import { getPosts } from '@/api/postsApi'
 import { postsColumns } from './columns'
 import { DataTable } from '@/components/ui/data-table'
-import Heading from '@/components/dashboard/heading'
 
-const PostsList = async ({ searchParams }) => {
+const PostsList = async ({
+  searchParams,
+}: {
+  searchParams: { page: string; limit: string }
+}) => {
   const page = searchParams.page ? Number(searchParams.page) : 1
   const limit = searchParams.limit ? Number(searchParams.limit) : 20
 
-  const posts = await getPosts({ page, limit })
+  const response = await fetch(
+    `http://localhost:11000/api/posts?page=${page}&limit=${limit}`,
+    {
+      next: {
+        tags: ['posts'],
+      },
+    }
+  )
+  const posts = await response.json()
 
   return (
     <>
