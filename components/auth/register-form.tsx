@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { FieldPath, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerValidator } from '@/validators'
-import { useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import {
@@ -18,9 +18,11 @@ import {
 import FormFieldSet from '@/components/form-fieldset'
 import { Input } from '@/components/ui/input'
 import { register } from '@/actions/authActions'
+import { FormError } from '../form-error'
 
 const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
+  const [formError, setFormError] = useState('')
 
   const form = useForm<z.infer<typeof registerValidator>>({
     resolver: zodResolver(registerValidator),
@@ -28,19 +30,21 @@ const RegisterForm = () => {
       name: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      confirm_password: '',
     },
   })
 
   const onSubmit = (values: z.infer<typeof registerValidator>) => {
     startTransition(async () => {
       const response = await register(values)
-      if (response.formError) {
-        response.formError.map(({ path, message }) => {
+      if (response.validationError) {
+        response.validationError.map(({ path, message }) => {
           form.setError(path as FieldPath<typeof values>, {
             message,
           })
         })
+      } else if (response.error) {
+        setFormError(response.error)
       } else {
         console.log(response.message)
       }
@@ -92,7 +96,7 @@ const RegisterForm = () => {
           />
           <FormField
             control={form.control}
-            name="confirmPassword"
+            name="confirm_password"
             render={({ field }) => (
               <FormItem className="mb-4">
                 <FormLabel>Confirm Password</FormLabel>
@@ -107,6 +111,7 @@ const RegisterForm = () => {
               </FormItem>
             )}
           />
+          <FormError message={formError} />
           <Button type="submit" className="w-full mb-4">
             Register
           </Button>

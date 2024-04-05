@@ -32,8 +32,8 @@ const ForgotPasswordForm = () => {
   const onSubmit = (values: z.infer<typeof forgotPasswordValidator>) => {
     startTransition(async () => {
       const response = await forgotPassword(values)
-      if (response.formError) {
-        response.formError.map(({ path, message }) => {
+      if (response.validationError) {
+        response.validationError.map(({ path, message }) => {
           form.setError(path as FieldPath<typeof values>, {
             message,
           })

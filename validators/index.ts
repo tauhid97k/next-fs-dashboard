@@ -9,15 +9,15 @@ export const registerValidator = z
       .min(1, { message: 'Email is required' })
       .email({ message: 'Invalid email' }),
     password: z.string().min(1, { message: 'Password is required' }),
-    confirmPassword: z.string(),
+    confirm_password: z.string(),
   })
   .refine(
     (values) => {
-      return values.password === values.confirmPassword
+      return values.password === values.confirm_password
     },
     {
       message: 'Passwords must match',
-      path: ['confirmPassword'],
+      path: ['confirm_password'],
     }
   )
 

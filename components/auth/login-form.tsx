@@ -33,8 +33,8 @@ const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof loginValidator>) => {
     startTransition(async () => {
       const response = await login(values)
-      if (response.formError) {
-        response.formError.map(({ path, message }) => {
+      if (response.validationError) {
+        response.validationError.map(({ path, message }) => {
           form.setError(path as FieldPath<typeof values>, {
             message,
           })

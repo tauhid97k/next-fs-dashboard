@@ -1,19 +1,42 @@
 'use server'
 
 import { z } from 'zod'
+import bcrypt from 'bcrypt'
 import {
   registerValidator,
   loginValidator,
   forgotPasswordValidator,
 } from '@/validators'
-import { formErrorServerResponse } from '@/lib/formErrorResponse'
+import { validationErrorResponse } from '@/lib/validationErrorResponse'
+import { users } from '@/drizzle/schema'
+import db from '@/drizzle'
 
 // Register
 export const register = async (values: z.infer<typeof registerValidator>) => {
-  const validationResult = registerValidator.safeParse(values)
-  if (!validationResult.success) {
-    return { formError: formErrorServerResponse(validationResult.error) }
+  const validatedFields = registerValidator.safeParse(values)
+  if (!validatedFields.success) {
+    return { validationError: validationErrorResponse(validatedFields.error) }
   }
+
+  // Get data and hash password
+  const { name, email, password } = validatedFields.data
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  // Check existing user
+  const existingUser = await db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.email, email),
+  })
+
+  if (existingUser) {
+    return { error: 'Email already exist' }
+  }
+
+  // Save user
+  await db.insert(users).values({
+    name,
+    email,
+    password: hashedPassword,
+  })
 
   return {
     message: 'Registration successful',
@@ -22,9 +45,9 @@ export const register = async (values: z.infer<typeof registerValidator>) => {
 
 // Login
 export const login = async (values: z.infer<typeof loginValidator>) => {
-  const validationResult = loginValidator.safeParse(values)
-  if (!validationResult.success) {
-    return { formError: formErrorServerResponse(validationResult.error) }
+  const validatedFields = loginValidator.safeParse(values)
+  if (!validatedFields.success) {
+    return { validationError: validationErrorResponse(validatedFields.error) }
   }
 
   return {
@@ -36,9 +59,9 @@ export const login = async (values: z.infer<typeof loginValidator>) => {
 export const forgotPassword = async (
   values: z.infer<typeof forgotPasswordValidator>
 ) => {
-  const validationResult = forgotPasswordValidator.safeParse(values)
-  if (!validationResult.success) {
-    return { formError: formErrorServerResponse(validationResult.error) }
+  const validatedFields = forgotPasswordValidator.safeParse(values)
+  if (!validatedFields.success) {
+    return { validationError: validationErrorResponse(validatedFields.error) }
   }
 
   return {
