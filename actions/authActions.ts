@@ -7,9 +7,10 @@ import {
   loginValidator,
   forgotPasswordValidator,
 } from '@/validators'
-import { validationErrorResponse } from '@/lib/validationErrorResponse'
-import { users } from '@/drizzle/schema'
 import db from '@/drizzle'
+import { validationErrorResponse } from '@/lib/validationErrorResponse'
+import { getUserByEmail } from '@/lib/getData'
+import { users } from '@/drizzle/schema'
 
 // Register
 export const register = async (values: z.infer<typeof registerValidator>) => {
@@ -23,9 +24,7 @@ export const register = async (values: z.infer<typeof registerValidator>) => {
   const hashedPassword = await bcrypt.hash(password, 10)
 
   // Check existing user
-  const existingUser = await db.query.users.findFirst({
-    where: (users, { eq }) => eq(users.email, email),
-  })
+  const existingUser = await getUserByEmail(email)
 
   if (existingUser) {
     return { error: 'Email already exist' }
@@ -37,6 +36,8 @@ export const register = async (values: z.infer<typeof registerValidator>) => {
     email,
     password: hashedPassword,
   })
+
+  // TODO: Send verification token email
 
   return {
     message: 'Registration successful',

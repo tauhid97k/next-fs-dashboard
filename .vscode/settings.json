@@ -8,6 +8,7 @@
     "shadcn",
     "sonner",
     "tailwindcss",
-    "tanstack"
+    "tanstack",
+    "trpc"
   ]
 }
