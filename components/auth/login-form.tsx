@@ -92,8 +92,8 @@ const LoginForm = () => {
               Forgot password?
             </Link>
           </div>
-          <Button type="submit" className="w-full">
-            Login
+          <Button type="submit" className="w-full" isLoading={isPending}>
+            {isPending ? 'Logging in' : 'Login'}
           </Button>
         </FormFieldSet>
       </form>

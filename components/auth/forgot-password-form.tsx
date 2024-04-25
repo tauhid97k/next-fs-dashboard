@@ -61,8 +61,8 @@ const ForgotPasswordForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full mb-4">
-            Send password reset link
+          <Button type="submit" className="w-full mb-4" isLoading={isPending}>
+            {isPending ? 'Sending...' : 'Send password reset link'}
           </Button>
           <Link
             href="/login"

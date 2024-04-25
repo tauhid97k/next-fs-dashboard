@@ -112,8 +112,8 @@ const RegisterForm = () => {
             )}
           />
           <FormError message={formError} />
-          <Button type="submit" className="w-full mb-4">
-            Register
+          <Button type="submit" className="w-full mb-4" isLoading={isPending}>
+            {isPending ? 'Registering...' : 'Register'}
           </Button>
           <Link
             href="/login"
