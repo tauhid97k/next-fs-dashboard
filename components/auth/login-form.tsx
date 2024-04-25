@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { FieldPath, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginValidator } from '@/validators'
-import { useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import {
@@ -18,9 +18,11 @@ import {
 import FormFieldSet from '@/components/form-fieldset'
 import { Input } from '@/components/ui/input'
 import { login } from '@/actions/authActions'
+import { FormError } from '@/components/form-error'
 
 const LoginForm = () => {
   const [isPending, startTransition] = useTransition()
+  const [formError, setFormError] = useState('')
 
   const form = useForm<z.infer<typeof loginValidator>>({
     resolver: zodResolver(loginValidator),
@@ -33,14 +35,14 @@ const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof loginValidator>) => {
     startTransition(async () => {
       const response = await login(values)
-      if (response.validationError) {
+      if (response?.validationError) {
         response.validationError.map(({ path, message }) => {
           form.setError(path as FieldPath<typeof values>, {
             message,
           })
         })
-      } else {
-        console.log(response.message)
+      } else if (response?.error) {
+        setFormError(response.error)
       }
     })
   }
@@ -75,6 +77,7 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
+          <FormError message={formError} />
           <div className="flex flex-col md:flex-row justify-between gap-2 mb-4">
             <Link
               href="/register"

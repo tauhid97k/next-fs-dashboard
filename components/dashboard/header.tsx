@@ -12,6 +12,7 @@ import { CircleUser, Menu } from 'lucide-react'
 import { ThemeToggler } from '@/components/theme-toggler'
 import { useContext } from 'react'
 import { SidebarContext } from '@/app/dashboard/layout'
+import { logout } from '@/actions/authActions'
 
 const Header = () => {
   const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext)
@@ -47,7 +48,11 @@ const Header = () => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem>
+              <form action={async () => await logout()}>
+                <button type="submit">Logout</button>
+              </form>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

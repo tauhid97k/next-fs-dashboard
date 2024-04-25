@@ -18,7 +18,7 @@ import {
 import FormFieldSet from '@/components/form-fieldset'
 import { Input } from '@/components/ui/input'
 import { register } from '@/actions/authActions'
-import { FormError } from '../form-error'
+import { FormError } from '@/components/form-error'
 
 const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
