@@ -1,5 +1,5 @@
 {
-  "id": "bf69773f-30f7-428f-90e7-f19825981926",
+  "id": "14c95868-d01f-4b9e-ac2c-ddd5b39bf45a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -185,6 +185,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "role": {
+          "name": "role",
+          "type": "role",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'USER'"
+        },
         "is_suspended": {
           "name": "is_suspended",
           "type": "boolean",
@@ -249,7 +256,15 @@
       "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "role": {
+      "name": "role",
+      "values": {
+        "ADMIN": "ADMIN",
+        "USER": "USER"
+      }
+    }
+  },
   "schemas": {},
   "_meta": {
     "columns": {},

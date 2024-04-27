@@ -6,9 +6,14 @@ import {
   integer,
   timestamp,
   boolean,
+  pgEnum,
 } from 'drizzle-orm/pg-core'
 import type { AdapterAccount } from '@auth/core/adapters'
 
+// User roles
+export const role = pgEnum('role', ['ADMIN', 'USER'])
+
+// Users
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
@@ -16,11 +21,13 @@ export const users = pgTable('users', {
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
   password: text('password').notNull(),
   profile_image: text('profile_image'),
+  role: role('role').default('USER'),
   is_suspended: boolean('is_suspended').default(false),
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
 })
 
+// Accounts
 export const accounts = pgTable(
   'accounts',
   {
@@ -45,6 +52,7 @@ export const accounts = pgTable(
   })
 )
 
+// Sessions
 export const sessions = pgTable('sessions', {
   sessionToken: text('sessionToken').notNull().primaryKey(),
   userId: uuid('userId')
@@ -53,6 +61,7 @@ export const sessions = pgTable('sessions', {
   expires: timestamp('expires', { mode: 'date' }).notNull(),
 })
 
+// Verification Tokens
 export const verificationTokens = pgTable(
   'verificationTokens',
   {
