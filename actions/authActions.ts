@@ -92,5 +92,5 @@ export const forgotPassword = async (
 
 // Logout
 export const logout = async () => {
-  await signOut({ redirectTo: '/login' })
+  await signOut({ redirectTo: '/auth/login' })
 }

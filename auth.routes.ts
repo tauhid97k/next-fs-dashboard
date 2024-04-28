@@ -10,7 +10,11 @@ export const publicRoutes = ['/']
  * These routes will redirect logged in users to /dashboard
  * @type {string[]}
  */
-export const authRoutes = ['/register', '/login', '/forgot-password']
+export const authRoutes = [
+  '/auth/register',
+  '/auth/login',
+  '/auth/forgot-password',
+]
 
 /**
  * The prefix for API authentication routes.

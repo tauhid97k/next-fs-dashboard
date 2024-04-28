@@ -1,16 +1,16 @@
 {
-  "id": "14c95868-d01f-4b9e-ac2c-ddd5b39bf45a",
+  "id": "064886f6-40a8-474f-8caf-e9c298c131f2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "accounts": {
-      "name": "accounts",
+    "account": {
+      "name": "account",
       "schema": "",
       "columns": {
         "userId": {
           "name": "userId",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -77,10 +77,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "accounts_userId_users_id_fk": {
-          "name": "accounts_userId_users_id_fk",
-          "tableFrom": "accounts",
-          "tableTo": "users",
+        "account_userId_user_id_fk": {
+          "name": "account_userId_user_id_fk",
+          "tableFrom": "account",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
@@ -92,8 +92,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "accounts_provider_providerAccountId_pk": {
-          "name": "accounts_provider_providerAccountId_pk",
+        "account_provider_providerAccountId_pk": {
+          "name": "account_provider_providerAccountId_pk",
           "columns": [
             "provider",
             "providerAccountId"
@@ -102,8 +102,8 @@
       },
       "uniqueConstraints": {}
     },
-    "sessions": {
-      "name": "sessions",
+    "session": {
+      "name": "session",
       "schema": "",
       "columns": {
         "sessionToken": {
@@ -114,7 +114,7 @@
         },
         "userId": {
           "name": "userId",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -127,10 +127,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "sessions_userId_users_id_fk": {
-          "name": "sessions_userId_users_id_fk",
-          "tableFrom": "sessions",
-          "tableTo": "users",
+        "session_userId_user_id_fk": {
+          "name": "session_userId_user_id_fk",
+          "tableFrom": "session",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
@@ -144,16 +144,15 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
-      "name": "users",
+    "user": {
+      "name": "user",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -177,10 +176,10 @@
           "name": "password",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "profile_image": {
-          "name": "profile_image",
+        "image": {
+          "name": "image",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -219,8 +218,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "verificationTokens": {
-      "name": "verificationTokens",
+    "verificationToken": {
+      "name": "verificationToken",
       "schema": "",
       "columns": {
         "identifier": {
@@ -245,8 +244,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "verificationTokens_identifier_token_pk": {
-          "name": "verificationTokens_identifier_token_pk",
+        "verificationToken_identifier_token_pk": {
+          "name": "verificationToken_identifier_token_pk",
           "columns": [
             "identifier",
             "token"

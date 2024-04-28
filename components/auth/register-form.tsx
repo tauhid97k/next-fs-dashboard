@@ -116,7 +116,7 @@ const RegisterForm = () => {
             {isPending ? 'Registering...' : 'Register'}
           </Button>
           <Link
-            href="/login"
+            href="/auth/login"
             className="block text-center text-sm text-muted-foreground hover:underline focus:underline focus:outline-none"
           >
             Already have an account?

@@ -65,7 +65,7 @@ const ForgotPasswordForm = () => {
             {isPending ? 'Sending...' : 'Send password reset link'}
           </Button>
           <Link
-            href="/login"
+            href="/auth/login"
             className="block text-center text-sm text-muted-foreground hover:underline focus:underline focus:outline-none"
           >
             Go back to login?

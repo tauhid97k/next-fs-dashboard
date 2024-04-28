@@ -19,8 +19,15 @@ import FormFieldSet from '@/components/form-fieldset'
 import { Input } from '@/components/ui/input'
 import { login } from '@/actions/authActions'
 import { FormError } from '@/components/form-error'
+import { useSearchParams } from 'next/navigation'
 
 const LoginForm = () => {
+  const searchParams = useSearchParams()
+  const urlError =
+    searchParams.get('error') === 'OAuthAccountNotLinked'
+      ? 'Email already in use with different provider!'
+      : ''
+
   const [isPending, startTransition] = useTransition()
   const [formError, setFormError] = useState('')
 
@@ -77,16 +84,16 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          <FormError message={formError} />
+          <FormError message={formError || urlError} />
           <div className="flex flex-col md:flex-row justify-between gap-2 mb-4">
             <Link
-              href="/register"
+              href="/auth/register"
               className="block text-center text-sm text-muted-foreground hover:underline focus:underline focus:outline-none"
             >
               Do not have an account?
             </Link>
             <Link
-              href="/forgot-password"
+              href="/auth/forgot-password"
               className="block text-center text-sm text-muted-foreground hover:underline focus:underline focus:outline-none"
             >
               Forgot password?

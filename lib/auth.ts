@@ -3,6 +3,8 @@ import authConfig from '@/auth.config'
 import db from '@/drizzle'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { getUserById } from '@/lib/getData'
+import { users } from '@/drizzle/schema'
+import { eq } from 'drizzle-orm'
 
 declare module 'next-auth' {
   interface Session {
@@ -18,6 +20,10 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  pages: {
+    signIn: '/auth/login',
+    error: '/auth/error',
+  },
   callbacks: {
     async session({ token, session }) {
       // Add user id & role to session
@@ -39,6 +45,16 @@ export const {
       token.role = existingUser.role
 
       return token
+    },
+  },
+  events: {
+    async linkAccount({ user }) {
+      await db
+        .update(users)
+        .set({
+          emailVerified: new Date(),
+        })
+        .where(eq(users.id, user.id as string))
     },
   },
   adapter: DrizzleAdapter(db),

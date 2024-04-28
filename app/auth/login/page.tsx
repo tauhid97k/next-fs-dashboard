@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import LoginForm from '@/components/auth/login-form'
+import SocialAuth from '@/components/auth/social-auth'
 
 const LoginPage = () => {
   return (
@@ -8,6 +9,7 @@ const LoginPage = () => {
         <CardTitle>Account Login</CardTitle>
       </CardHeader>
       <CardContent>
+        <SocialAuth />
         <LoginForm />
       </CardContent>
     </Card>
