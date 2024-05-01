@@ -13,6 +13,8 @@ import { getUserByEmail } from '@/lib/getData'
 import { signIn, signOut } from '@/lib/auth'
 import { DEFAULT_LOGIN_REDIRECT } from '@/auth.routes'
 import { AuthError } from 'next-auth'
+import { generateVerificationToken } from '@/lib/tokens'
+import { sendVerificationEmail } from '@/lib/mail'
 
 // Register
 export const register = async (values: z.infer<typeof registerValidator>) => {
@@ -41,10 +43,11 @@ export const register = async (values: z.infer<typeof registerValidator>) => {
     },
   })
 
-  // TODO: Send verification token email
+  const verificationToken = await generateVerificationToken(email)
+  await sendVerificationEmail(verificationToken.email, verificationToken.token)
 
   return {
-    message: 'Registration successful',
+    success: 'Confirmation email sent!',
   }
 }
 
@@ -56,6 +59,33 @@ export const login = async (values: z.infer<typeof loginValidator>) => {
   }
 
   const { email, password } = validatedFields.data
+
+  const existingUser = await getUserByEmail(email)
+
+  // Check If User Exist
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return { error: 'Invalid credentials' }
+  }
+
+  // Check Password Matching
+  const passwordMatch = await bcrypt.compare(password, existingUser.password)
+  if (!passwordMatch) return { error: 'Invalid credentials' }
+
+  // Check Email Verification (If not verified then send verification email)
+  if (!existingUser.emailVerified) {
+    const verificationToken = await generateVerificationToken(
+      existingUser.email
+    )
+
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    )
+
+    return {
+      error: 'Check your email for verification',
+    }
+  }
 
   try {
     await signIn('credentials', {

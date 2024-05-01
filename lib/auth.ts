@@ -23,6 +23,19 @@ export const {
     error: '/auth/error',
   },
   callbacks: {
+    async signIn({ user, account }) {
+      // Allow OAuth without email verification
+      if (account?.provider !== 'credentials') return true
+
+      const existingUser = await getUserById(user.id as string)
+
+      // Prevent sign in without email verification
+      if (!existingUser?.emailVerified) return false
+
+      // TODO: Add 2FA Check
+
+      return true
+    },
     async session({ token, session }) {
       // Add user id & role to session
       if (token.sub && token.role && session.user) {

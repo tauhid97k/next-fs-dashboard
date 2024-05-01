@@ -19,10 +19,12 @@ import FormFieldSet from '@/components/form-fieldset'
 import { Input } from '@/components/ui/input'
 import { register } from '@/actions/authActions'
 import { FormError } from '@/components/form-error'
+import { FormSuccess } from '@/components/form-success'
 
 const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
   const [formError, setFormError] = useState('')
+  const [formSuccess, setFormSuccess] = useState('')
 
   const form = useForm<z.infer<typeof registerValidator>>({
     resolver: zodResolver(registerValidator),
@@ -43,10 +45,10 @@ const RegisterForm = () => {
             message,
           })
         })
-      } else if (response.error) {
+      } else if (response?.error) {
         setFormError(response.error)
-      } else {
-        console.log(response.message)
+      } else if (response?.success) {
+        setFormSuccess(response.success)
       }
     })
   }
@@ -112,6 +114,7 @@ const RegisterForm = () => {
             )}
           />
           <FormError message={formError} />
+          <FormSuccess message={formSuccess} />
           <Button type="submit" className="w-full mb-4" isLoading={isPending}>
             {isPending ? 'Registering...' : 'Register'}
           </Button>

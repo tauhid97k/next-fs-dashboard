@@ -19,6 +19,7 @@ import FormFieldSet from '@/components/form-fieldset'
 import { Input } from '@/components/ui/input'
 import { login } from '@/actions/authActions'
 import { FormError } from '@/components/form-error'
+import { FormSuccess } from '@/components/form-success'
 import { useSearchParams } from 'next/navigation'
 
 const LoginForm = () => {
@@ -30,6 +31,7 @@ const LoginForm = () => {
 
   const [isPending, startTransition] = useTransition()
   const [formError, setFormError] = useState('')
+  const [formSuccess, setFormSuccess] = useState('')
 
   const form = useForm<z.infer<typeof loginValidator>>({
     resolver: zodResolver(loginValidator),
@@ -85,6 +87,7 @@ const LoginForm = () => {
             )}
           />
           <FormError message={formError || urlError} />
+          <FormSuccess message={formSuccess} />
           <div className="flex flex-col md:flex-row justify-between gap-2 mb-4">
             <Link
               href="/auth/register"
