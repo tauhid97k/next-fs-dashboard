@@ -1,10 +1,8 @@
 import NextAuth, { DefaultSession } from 'next-auth'
 import authConfig from '@/auth.config'
-import db from '@/drizzle'
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
+import { db } from '@/lib/db'
+import { PrismaAdapter } from '@auth/prisma-adapter'
 import { getUserById } from '@/lib/getData'
-import { users } from '@/drizzle/schema'
-import { eq } from 'drizzle-orm'
 
 declare module 'next-auth' {
   interface Session {
@@ -49,15 +47,17 @@ export const {
   },
   events: {
     async linkAccount({ user }) {
-      await db
-        .update(users)
-        .set({
+      await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
           emailVerified: new Date(),
-        })
-        .where(eq(users.id, user.id as string))
+        },
+      })
     },
   },
-  adapter: DrizzleAdapter(db),
+  adapter: PrismaAdapter(db),
   session: { strategy: 'jwt' },
   ...authConfig,
 })

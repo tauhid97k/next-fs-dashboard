@@ -1,10 +1,12 @@
-import db from '@/drizzle'
+import { db } from '@/lib/db'
 
 // Get User By ID
 export const getUserById = async (id: string) => {
   try {
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, id),
+    const user = await db.user.findUnique({
+      where: {
+        id,
+      },
     })
 
     return user
@@ -16,8 +18,10 @@ export const getUserById = async (id: string) => {
 // Get User By Email
 export const getUserByEmail = async (email: string) => {
   try {
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.email, email),
+    const user = await db.user.findUnique({
+      where: {
+        email,
+      },
     })
 
     return user

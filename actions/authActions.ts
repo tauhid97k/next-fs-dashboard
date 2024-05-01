@@ -7,10 +7,9 @@ import {
   loginValidator,
   forgotPasswordValidator,
 } from '@/validators'
-import db from '@/drizzle'
+import { db } from '@/lib/db'
 import { validationErrorResponse } from '@/lib/validationErrorResponse'
 import { getUserByEmail } from '@/lib/getData'
-import { users } from '@/drizzle/schema'
 import { signIn, signOut } from '@/lib/auth'
 import { DEFAULT_LOGIN_REDIRECT } from '@/auth.routes'
 import { AuthError } from 'next-auth'
@@ -34,10 +33,12 @@ export const register = async (values: z.infer<typeof registerValidator>) => {
   }
 
   // Save user
-  await db.insert(users).values({
-    name,
-    email,
-    password: hashedPassword,
+  await db.user.create({
+    data: {
+      name,
+      email,
+      password: hashedPassword,
+    },
   })
 
   // TODO: Send verification token email
